@@ -1,0 +1,16 @@
+{
+  "short_name": "Pyari Streak",
+  "name": "Maulik & Mansi Pyari Streak",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/fluency/512/hearts.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0f0208",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#ff2d55"
+}
