@@ -5,91 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Pyari Streak ❤️</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --pink: #ff2d55; --bg: #0f0208; --glass: rgba(255, 255, 255, 0.05); }
-        body { background: var(--bg); color: white; font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        :root { --pink: #ff2d55; --bg: #0f0208; }
+        body { background: var(--bg); color: white; font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; -webkit-tap-highlight-color: transparent; }
 
-        /* Clean Text Splash */
-        #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 100; transition: opacity 0.4s ease; }
-        .splash-text { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--pink); opacity: 0; animation: fadeInOut 1.5s ease-in-out forwards; }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateY(10px); } 50% { opacity: 1; transform: translateY(0); } 100% { opacity: 1; } }
-
-        .card { background: var(--glass); backdrop-filter: blur(15px); padding: 30px 20px; border-radius: 40px; text-align: center; width: 85%; max-width: 340px; border: 1px solid rgba(255, 45, 85, 0.2); display: none; }
+        .card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 30px; text-align: center; width: 85%; max-width: 320px; border: 1px solid rgba(255, 45, 85, 0.3); display: none; }
         .card.active { display: block; }
 
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--pink); margin: 0; }
-        .streak-circle { width: 180px; height: 180px; border: 3px solid var(--pink); border-radius: 50%; margin: 20px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 20px rgba(255, 45, 85, 0.2); }
-        .streak-num { font-size: 5.5rem; font-weight: 800; line-height: 1; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--pink); margin: 0; }
+        .streak-circle { width: 160px; height: 160px; border: 3px solid var(--pink); border-radius: 50%; margin: 15px auto; display: flex; flex-direction: column; justify-content: center; }
+        .streak-num { font-size: 5rem; font-weight: 800; line-height: 1; }
         
-        .alert-box { background: rgba(255, 45, 85, 0.2); border: 1px solid var(--pink); padding: 12px; border-radius: 20px; margin-bottom: 15px; font-size: 0.8rem; }
-        input, select { width: 90%; padding: 12px; margin: 8px 0; background: rgba(0,0,0,0.6); color: white; border: 1px solid #330d1a; border-radius: 12px; text-align: center; font-size: 1rem; font-family: inherit; }
+        input, select { width: 90%; padding: 12px; margin: 8px 0; background: #000; color: white; border: 1px solid #444; border-radius: 10px; text-align: center; }
         
-        .btn { background: var(--pink); color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-outline { background: transparent; border: 1px solid var(--pink); color: var(--pink); margin-top: 20px; }
+        .btn { background: var(--pink); color: white; border: none; padding: 14px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn:active { background: #b01e3a; transform: scale(0.98); } /* Visual Feedback */
         
-        .reset-section { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
-        .footer-link { color: #ff85a1; font-size: 0.8rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 10px; }
+        .btn-outline { background: transparent; border: 1px solid var(--pink); color: var(--pink); margin-top: 15px; }
+        
+        .alert-box { background: rgba(255, 45, 85, 0.2); border: 1px solid var(--pink); padding: 10px; border-radius: 15px; margin-bottom: 15px; font-size: 0.8rem; }
+        .footer-link { color: #ff85a1; font-size: 0.75rem; text-decoration: underline; cursor: pointer; display: block; margin-top: 15px; }
     </style>
 </head>
 <body>
-
-    <div id="splash"><div class="splash-text">Pyari Streak</div></div>
 
     <!-- Login -->
     <div id="login-sec" class="card">
         <h1>Welcome</h1>
         <select id="userSel"><option value="Maulik">Maulik</option><option value="Mansi">Mansi</option></select>
         <input type="password" id="passInput" placeholder="Password">
-        <button class="btn" onclick="handleLogin()">Login ❤️</button>
+        <button class="btn" id="loginBtn" onclick="handleLogin()">Login ❤️</button>
     </div>
 
     <!-- Dashboard -->
     <div id="dash-sec" class="card">
         <h1>Pyari Streak</h1>
         <div id="statusAlert" class="alert-box" style="display:none;"></div>
-        <div class="streak-circle"><div class="streak-num" id="daysDisp">--</div><div style="font-size: 1.5rem;">💗</div></div>
-        <div style="font-size: 0.9rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 15px;">Best: <span id="bestDisp" style="color:var(--pink); font-weight:800;">--</span> 💝</div>
+        <div class="streak-circle"><div class="streak-num" id="daysDisp">--</div><div>💗</div></div>
+        <div style="font-size: 0.9rem; margin-bottom:10px;">Best: <span id="bestDisp" style="color:var(--pink)">--</span></div>
         
-        <button class="btn btn-outline" onclick="confirmBreak()">Break Streak 💔</button>
+        <button class="btn btn-outline" id="breakBtn" onclick="confirmBreak()">Break Streak 💔</button>
         
-        <!-- Updated Password Reset UI -->
-        <div class="reset-section">
-            <span id="toggleText" class="footer-link" onclick="showReset()">⚙️ Settings & Password Reset</span>
+        <div id="reset-ui" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+            <span class="footer-link" id="toggleLink" onclick="showReset()">⚙️ Settings & Password Reset</span>
             <div id="reset-fields" style="display:none;">
                 <input type="password" id="oldP" placeholder="Old Password">
                 <input type="password" id="newP" placeholder="New Password">
-                <button class="btn" style="background:#4a0026; padding: 10px;" onclick="handleReset()">Update Password</button>
-                <span class="footer-link" style="text-decoration:none; color:#777;" onclick="hideReset()">Cancel</span>
+                <button class="btn" id="resetBtn" style="background:#4a0026;" onclick="handleReset()">Update Password Now</button>
+                <span class="footer-link" style="color:#777" onclick="hideReset()">Cancel</span>
             </div>
         </div>
-
-        <span class="footer-link" style="color:#555; margin-top:30px;" onclick="logout()">Logout / Switch User</span>
+        <span class="footer-link" style="color:#555" onclick="logout()">Logout</span>
     </div>
 
     <script>
         const API = "https://script.google.com/macros/s/AKfycbz5JLBRfQ6xO_vyytmar0soMzu-9Ib_G-dfeOnHZv1PSQ8cpRNKtpvAwK2IxaB6_hs/exec";
         let loggedUser = localStorage.getItem('pyariUser');
 
+        function showReset() { document.getElementById('reset-fields').style.display='block'; document.getElementById('toggleLink').style.display='none'; }
+        function hideReset() { document.getElementById('reset-fields').style.display='none'; document.getElementById('toggleLink').style.display='block'; }
+
         async function handleLogin() {
+            const btn = document.getElementById('loginBtn');
+            btn.innerText = "Checking...";
             const user = document.getElementById('userSel').value;
             const pass = document.getElementById('passInput').value;
-            const res = await fetch(API, {method:'POST', body:JSON.stringify({action:'login', user, pass})});
-            if(await res.text() === "Success") { localStorage.setItem('pyariUser', user); location.reload(); }
-            else alert("Galat Password!");
+            try {
+                const res = await fetch(API, {method:'POST', body:JSON.stringify({action:'login', user, pass})});
+                const text = await res.text();
+                if(text === "Success") {
+                    localStorage.setItem('pyariUser', user);
+                    location.reload();
+                } else { alert("Wrong Password!"); btn.innerText = "Login ❤️"; }
+            } catch(e) { alert("Network Error"); btn.innerText = "Login ❤️"; }
         }
 
         async function init() {
-            setTimeout(() => { 
-                document.getElementById('splash').style.opacity = '0'; 
-                setTimeout(() => document.getElementById('splash').style.display='none', 400); 
-            }, 1500);
-
             if(!loggedUser) { document.getElementById('login-sec').classList.add('active'); return; }
             document.getElementById('dash-sec').classList.add('active');
             
@@ -99,41 +93,48 @@
             document.getElementById('daysDisp').innerText = diff;
             document.getElementById('bestDisp').innerText = d.bestStreak;
 
-            const partnerReq = loggedUser === "Maulik" ? d.mansiReq : d.maulikReq;
+            const partnerReq = (loggedUser === "Maulik") ? d.mansiReq : d.maulikReq;
             if(partnerReq === true || partnerReq === "true") {
-                const partner = loggedUser === "Maulik" ? "Mansi" : "Maulik";
                 const box = document.getElementById('statusAlert');
                 box.style.display = 'block';
-                box.innerHTML = `<p>${partner} wants to break streak!</p>
-                    <button class="btn" style="padding:8px; margin-bottom:5px;" onclick="requestBreak()">Approve ✅</button>
-                    <button class="btn" style="background:#444; padding:8px;" onclick="rejectReq()">Reject ❌</button>`;
-            }
-
-            if (localStorage.getItem('lastGreet') !== new Date().toDateString()) {
-                setTimeout(() => confetti({ particleCount: 100, spread: 70, colors: ['#ff2d55', '#ffffff'] }), 1600);
-                localStorage.setItem('lastGreet', new Date().toDateString());
+                box.innerHTML = `Partner wants to break!<br>
+                    <button class="btn" style="padding:5px; margin-top:5px" onclick="requestBreak(this)">Approve ✅</button>
+                    <button class="btn" style="background:#444; padding:5px; margin-top:5px" onclick="rejectReq(this)">Reject ❌</button>`;
             }
         }
-
-        function showReset() { document.getElementById('reset-fields').style.display='block'; document.getElementById('toggleText').style.display='none'; }
-        function hideReset() { document.getElementById('reset-fields').style.display='none'; document.getElementById('toggleText').style.display='block'; }
 
         async function handleReset() {
+            const btn = document.getElementById('resetBtn');
             const oldP = document.getElementById('oldP').value;
             const newP = document.getElementById('newP').value;
-            if(!oldP || !newP) return alert("Fields fill karein");
+            if(!oldP || !newP) return alert("Empty fields!");
+            
+            btn.innerText = "Updating...";
             const res = await fetch(API, {method:'POST', body:JSON.stringify({action:'update_pass', user:loggedUser, oldP, newP})});
-            if(await res.text() === "Ok") { alert("Password Updated!"); location.reload(); }
-            else alert("Old password galat hai!");
+            if(await res.text() === "Ok") {
+                alert("Success! Password Changed.");
+                location.reload();
+            } else {
+                alert("Incorrect Old Password!");
+                btn.innerText = "Update Password Now";
+            }
         }
 
-        function confirmBreak() { if(confirm("Are you sure? 💔")) requestBreak(); }
-        async function requestBreak() {
+        function confirmBreak() { if(confirm("Break the streak? 💔")) requestBreak(document.getElementById('breakBtn')); }
+
+        async function requestBreak(btn) {
+            btn.innerText = "Sending...";
             const res = await fetch(API, {method:'POST', body:JSON.stringify({action:'break_request', user:loggedUser})});
-            if(await res.text() === "ResetDone") { alert("Streak reset ho gayi! ❤️"); location.reload(); }
-            else alert("Request bhej di gayi hai.");
+            if(await res.text() === "ResetDone") location.reload();
+            else { alert("Request sent!"); btn.innerText = "Pending Approval..."; }
         }
-        async function rejectReq() { await fetch(API, {method:'POST', body:JSON.stringify({action:'reject'})}); location.reload(); }
+
+        async function rejectReq(btn) {
+            btn.innerText = "Wait...";
+            await fetch(API, {method:'POST', body:JSON.stringify({action:'reject'})});
+            location.reload();
+        }
+
         function logout() { localStorage.removeItem('pyariUser'); location.reload(); }
         window.onload = init;
     </script>
